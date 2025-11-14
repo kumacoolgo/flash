@@ -20,5 +20,5 @@ ENV PYTHONUNBUFFERED=1
 EXPOSE 5000
 
 # 使用 gunicorn 启动 Flask 应用
-# 模块名:对象名 => img_downloader_web_zip_only:app
-CMD ["gunicorn", "-b", "0.0.0.0:5000", "img_downloader_web_zip_only:app", "--workers", "4", "--threads", "8", "--timeout", "120"]
+# 关键点：绑定到 $PORT（Zeabur 会注入 PORT 环境变量）
+CMD ["sh", "-c", "gunicorn -b 0.0.0.0:${PORT:-5000} img_downloader_web_zip_only:app --workers 4 --threads 8 --timeout 120"]
